@@ -10,7 +10,6 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategorie;
-
     private String categorie;
 
     public Long getIdCategorie() {
