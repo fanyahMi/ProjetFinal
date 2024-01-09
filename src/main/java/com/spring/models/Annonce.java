@@ -15,7 +15,7 @@ public class Annonce {
     private Long voitureId;
     private Long vendeurId;
     private double prixVente;
-    private int status;
+    private int statut;
     private Date dateAnnonce;
     private Date dateConfirmation;
 
@@ -51,14 +51,6 @@ public class Annonce {
         this.prixVente = prixVente;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public Date getDateAnnonce() {
         return dateAnnonce;
     }
@@ -73,6 +65,14 @@ public class Annonce {
 
     public void setDateConfirmation(Date dateConfirmation) {
         this.dateConfirmation = dateConfirmation;
+    }
+
+    public int getStatut() {
+        return statut;
+    }
+
+    public void setStatut(int statut) {
+        this.statut = statut;
     }
 
 }
