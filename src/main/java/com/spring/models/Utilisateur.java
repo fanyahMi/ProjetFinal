@@ -1,5 +1,7 @@
 package com.spring.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,13 +13,12 @@ public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_utilisateur;
-
     private String nom;
-
+    private String prenom;
+    private int genre;
+    private Date date_naissance;
     private String email;
-
     private String password;
-
     private String role;
 
     public Long getId_utilisateur() {
@@ -59,4 +60,29 @@ public class Utilisateur {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public int getGenre() {
+        return genre;
+    }
+
+    public void setGenre(int genre) {
+        this.genre = genre;
+    }
+
+    public Date getDate_naissance() {
+        return date_naissance;
+    }
+
+    public void setDate_naissance(Date date_naissance) {
+        this.date_naissance = date_naissance;
+    }
+
 }

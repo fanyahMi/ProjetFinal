@@ -11,7 +11,6 @@ public class Marque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_marque;
-
     private String marque;
 
     public Long getId_marque() {
