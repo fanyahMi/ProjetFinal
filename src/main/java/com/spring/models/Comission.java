@@ -9,22 +9,15 @@ import jakarta.persistence.Id;
 public class Comission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCommission;
-    private double taux;
+    private Long idComission;
 
-    public Long getIdCommission() {
-        return idCommission;
-    }
+    private Double taux;
 
-    public void setIdCommission(Long idCommission) {
-        this.idCommission = idCommission;
-    }
-
-    public double getTaux() {
+    public Double getTaux() {
         return taux;
     }
 
-    public void setTaux(double taux) {
+    public void setTaux(Double taux) {
         this.taux = taux;
     }
 
