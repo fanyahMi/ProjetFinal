@@ -1,0 +1,61 @@
+package com.spring.controller;
+
+import com.spring.models.Utilisateur;
+import com.spring.services.TokenService;
+import com.spring.services.UtilisateurService;
+import com.spring.token.JwtUtil2;
+import com.spring.token.Token;
+import com.spring.utility.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin
+public class UtilisateurController {
+
+    private final UtilisateurService utilisateurService;
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    public UtilisateurController(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> login(@RequestParam("email") String email, @RequestParam("mdp") String mdp)
+            throws Exception {
+        Response response = new Response();
+        Utilisateur utilisateur = utilisateurService.findByEmailAndPassword(email, mdp);
+        if (utilisateur != null) {
+            JwtUtil2 j = new JwtUtil2();
+            Map<String, Object> res = j.generateToken(utilisateur);
+            Token token = new Token();
+            token.setCle((String) res.get("cle"));
+            token.setToken((String) res.get("token"));
+            token.setDateCreation(new Date(((java.util.Date) res.get("date")).getTime()));
+            token.setDateExpiration(new Date(((java.util.Date) res.get("expirer")).getTime()));
+            tokenService.saveToken(token);
+            response.setData(token.getToken());
+            response.setStatus(HttpStatus.OK);
+            response.setStatus_code("200");
+            response.setMessage("");
+        } else {
+            response.setMessage("Email ou mot de passe incorrect ");
+            response.setStatus_code("401");
+            response.setStatus(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+}
