@@ -50,6 +50,8 @@ create table model(
     model varchar(70) not null
 );
 
+
+
 create table anneesortie(
     id_anneesortie serial primary key,
     model_id int references model(id_model),

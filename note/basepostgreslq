@@ -6,3 +6,17 @@ spring.jpa.hibernate.ddl-auto=update
 server.port=8080
 
 
+
+
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/vehicule2
+spring.datasource.username=postgres
+spring.datasource.password=Hasinjo2
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+server.port=8080
+
+
+
+
+

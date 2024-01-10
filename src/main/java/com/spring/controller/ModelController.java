@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.exception.TokenException;
+import com.spring.models.Carburant;
 import com.spring.models.Model;
+import com.spring.services.CarburantService;
 import com.spring.services.ModelService;
 import com.spring.services.TokenService;
 import com.spring.utility.Response;
@@ -27,7 +29,10 @@ public class ModelController {
     private TokenService tokenService;
     @Autowired
     private ModelService modelService;
+    @Autowired
+    private CarburantService carburantService;
 
+    /*** Liste Model ***/
     @GetMapping
     public ResponseEntity<Response> getAll(@RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
@@ -49,7 +54,7 @@ public class ModelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getModelMarqueByIdModel(@PathVariable Long id,
+    public ResponseEntity<Response> getModelMarqueByIdModel(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
@@ -69,94 +74,8 @@ public class ModelController {
         }
     }
 
-    @GetMapping("annees/before/{annee}")
-    public ResponseEntity<Response> getAllModelMarqueBeforeAnnee(@PathVariable Integer annee,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(modelService.findByAnneeLessThan(annee));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        } catch (Exception e) {
-            response.setStatus_code("401");
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-        }
-    }
-
-    @GetMapping("annees/after/{annee}")
-    public ResponseEntity<Response> getAllModelMarqueAfterAnnee(@PathVariable Integer annee,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(modelService.findByAnneeGreaterThanEqual(annee));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        } catch (Exception e) {
-            response.setStatus_code("401");
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-        }
-    }
-
-    @GetMapping("/categories/{id}")
-    public ResponseEntity<Response> getModelMarqueByCategorieId(@PathVariable Long id,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(modelService.findByIdCategorie(id));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        } catch (Exception e) {
-            response.setStatus_code("401");
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-        }
-    }
-
-    @GetMapping("/marques/{id}")
-    public ResponseEntity<Response> getModelMarqueByMarqueId(@PathVariable Long id,
-            @RequestHeader("Authorization") String authorizationHeader) {
-        Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(modelService.findByMarqueId(id));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        } catch (Exception e) {
-            response.setStatus_code("401");
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-        }
-    }
-
     @PostMapping
-    public ResponseEntity<Response> saveCategory(@RequestBody Model model,
+    public ResponseEntity<Response> saveModel(@RequestBody Model model,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
@@ -175,7 +94,7 @@ public class ModelController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteCategory(@PathVariable Long id,
+    public ResponseEntity<Response> deleteCategory(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
 
         Response response = new Response();
@@ -193,4 +112,93 @@ public class ModelController {
         }
     }
 
+    /***** Liste carburant ***/
+    @GetMapping("v1/carburants")
+    public ResponseEntity<Response> listCarburant(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            response.setData(carburantService.getAllCarburants());
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /***** Ajout carbutant ****/
+    @PostMapping("v1/carburants")
+    public ResponseEntity<Response> saveCarburant(@RequestBody Carburant carburant,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+        try {
+            tokenService.checkRole(authorizationHeader, 10);
+            response.setStatus_code("200");
+            response.setData(carburantService.saveCarburant(carburant));
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**** Liste de Detail Model /categorie / marque ****/
+    @GetMapping("v1/details")
+    public ResponseEntity<Response> listDeitailModel(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            response.setData(modelService.getListDetailModel());
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**** Liste annee par model ****/
+    @GetMapping("v1/details/{id}")
+    public ResponseEntity<Response> listDeitailModelAnnee(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer id) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            Model model = new Model();
+            model.setId_model(id);
+            response.setData(modelService.getListAnneModel(model));
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
 }

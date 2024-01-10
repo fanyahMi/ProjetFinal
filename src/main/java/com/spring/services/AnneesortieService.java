@@ -1,5 +1,7 @@
 package com.spring.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class AnneesortieService {
 
     public void deleteAnnesortie(Long id) {
         anneeRepository.deleteById(id);
+    }
+
+    public List<Anneesortie> findByModelId(Long modelId) {
+        return anneeRepository.findByModelId(modelId);
     }
 
 }
