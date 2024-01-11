@@ -36,3 +36,10 @@ from
     join anneesortie an on an.model_id = m.id_model 
     order by m.id_marque, m.id_model, m.id_categorie, an.id_anneesortie; 
 
+
+create or replace view v_categorie_marque as
+select 
+    id_marque, marque, id_categorie, categorie 
+from v_model_details 
+    group by id_marque, marque, id_categorie, categorie 
+    order by id_marque, id_categorie;

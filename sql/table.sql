@@ -64,6 +64,7 @@ create table modelcarburant(
     carburant_id int references carburant(id_carburant)
 );
 
+
 create table voiture(
     id_voiture serial primary key,
     model_id int references model(id_model),
@@ -88,4 +89,11 @@ create table vente(
     acheteur_id int references utilisateur(id_utilisateur),
     prix_achat double precision,
     date_achat date  null
+);
+
+
+/***** Hasinjo **/
+create table boitevitesse (
+    id_boitevitesse serial primary key,
+    boitevitesse varchar(70) not null
 );

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.exception.TokenException;
 import com.spring.models.Categorie;
+import com.spring.models.Model;
 import com.spring.services.CategorieService;
 import com.spring.services.TokenService;
 import com.spring.utility.Response;
@@ -46,7 +47,7 @@ public class CategorieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getCategoryById(@PathVariable Long id,
+    public ResponseEntity<Response> getCategoryById(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
@@ -83,7 +84,7 @@ public class CategorieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteCategory(@PathVariable Long id,
+    public ResponseEntity<Response> deleteCategory(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
 
         Response response = new Response();
@@ -100,4 +101,29 @@ public class CategorieController {
             return new ResponseEntity<>(response, e.getStatus());
         }
     }
+
+    /**** Liste annee par model ****/
+    @GetMapping("v1/marques/{idCategorie}")
+    public ResponseEntity<Response> listDeitailModelAnnee(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idCategorie) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            Categorie categorie = new Categorie();
+            categorie.setIdCategorie(idCategorie);
+            response.setData(categorieService.getListeMarqueCategorie(categorie));
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

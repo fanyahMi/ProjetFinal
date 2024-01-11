@@ -201,4 +201,27 @@ public class ModelController {
             return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
     }
+
+    /**** Liste Boite de vitesse ****/
+    @GetMapping("v1/boitevitesses")
+    public ResponseEntity<Response> listBoiteVitesse(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            response.setData(modelService.getListeBoiteVitesse());
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

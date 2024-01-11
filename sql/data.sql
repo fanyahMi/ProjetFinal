@@ -37,6 +37,13 @@ INSERT INTO model (marque_id, categorie_id, model) VALUES
     (4, 4, 'Frontier'),
     (5, 1, 'Altima');
 
+INSERT INTO model (marque_id, categorie_id, model) VALUES
+    (1, 2, 'Camry 2'),
+    (2, 2, 'CR-V 2'),
+    (3, 1, 'Mazda3 2'),
+    (4, 4, 'Frontier 2'),
+    (5, 4, 'Altima 2');
+
 -- Insertion dans la table "anneesortie"
 INSERT INTO anneesortie (model_id, annee) VALUES 
     (1, 2020),
@@ -76,3 +83,12 @@ INSERT INTO vente (annonce_id, acheteur_id, prix_achat, date_achat) VALUES
     (3, 3, 29000.00, '2022-02-10 11:15:00'),
     (4, 4, 17500.00, '2022-02-15 13:20:00'),
     (5, 5, 21000.00, '2022-02-20 16:00:00');
+
+
+
+/***** Hasinjo ***/
+INSERT INTO boitevitesse (boitevitesse) VALUES
+('Automatic'),
+('Manual'),
+('CVT'),
+('Semi-Automatic');

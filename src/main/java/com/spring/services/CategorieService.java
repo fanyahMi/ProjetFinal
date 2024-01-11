@@ -1,12 +1,15 @@
 package com.spring.services;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.dao.connexion.Connexion_projet;
 import com.spring.models.Categorie;
+import com.spring.models.view.CategorieMarqueView;
 import com.spring.repository.CategorieRepository;
 
 @Service
@@ -18,7 +21,7 @@ public class CategorieService {
         return categorieRepository.findAll();
     }
 
-    public Optional<Categorie> getCategoryById(Long id) {
+    public Optional<Categorie> getCategoryById(Integer id) {
         return categorieRepository.findById(id);
     }
 
@@ -26,7 +29,27 @@ public class CategorieService {
         return categorieRepository.save(categorie);
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Integer id) {
         categorieRepository.deleteById(id);
+    }
+
+    /****
+     * Liste marque par categori
+     * 
+     * @throws Exception
+     ***/
+    public List<CategorieMarqueView> getListeMarqueCategorie(Categorie categorie) throws Exception {
+        Connection c = null;
+        try {
+            c = new Connexion_projet().getconnection();
+            CategorieMarqueView detail = new CategorieMarqueView();
+            detail.setIdCategorie(categorie.getIdCategorie());
+            return detail.findAll(c);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (c != null)
+                c.close();
+        }
     }
 }

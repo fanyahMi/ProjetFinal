@@ -10,15 +10,23 @@ public class Marque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_marque;
+    private Integer id_marque;
     private String marque;
 
-    public Long getId_marque() {
+    public Integer getId_marque() {
         return id_marque;
     }
 
-    public void setId_marque(Long id_marque) {
+    public void setId_marque(Integer id_marque) {
         this.id_marque = id_marque;
+    }
+
+    public void setId_marque(String id_marque) throws Exception {
+        try {
+            setId_marque(Integer.parseInt(id_marque));
+        } catch (Exception e) {
+            throw new Exception("Il y a une erreur ");
+        }
     }
 
     public String getMarque() {

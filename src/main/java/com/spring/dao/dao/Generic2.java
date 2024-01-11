@@ -349,11 +349,12 @@ public class Generic2 implements Serializable {
                 boolean check = false;
                 for (Field champ : champs) {
                     String value = getAnnotationColumn(champ);
-                    if (value != null && value.equals(string))
+                    if (value != null && value.equals(string)) {
                         fields.add(champ);
-                    check = true;
+                        check = true;
+                    }
                 }
-                if (check)
+                if (!check)
                     throw new Exception("Le column " + string + " n'existe pas dans cette class " + this.getClass());
             }
             return fields;
