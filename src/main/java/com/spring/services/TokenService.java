@@ -35,6 +35,10 @@ public class TokenService {
         tokenRepository.deleteByToken(token);
     }
 
+    public void logout(String token) throws TokenException {
+        tokenRepository.deleteByToken(checkAuthorizationBearer(token));
+    }
+
     public Optional<Token> findTokenByConditions(String token, Date currentDate) {
         return tokenRepository.findByTokenAndDateExpirationBefore(token, currentDate);
     }
@@ -72,9 +76,11 @@ public class TokenService {
         return getClaims(tk);
     }
 
-    public void checkRole(String authorizationHeader, String role) throws TokenException {
+    public void checkRole(String authorizationHeader, int role) throws TokenException {
         Claims claims = validationToken(authorizationHeader);
+        System.out.println(claims.get("role") + "  h");
         if (!claims.get("role").equals(role)) {
+            System.out.println(claims.get("role") + "gg  h");
             throw new TokenException("Accès interdit. Vous n'avez pas le droit d'accéder à cette ressource", "403",
                     HttpStatus.FORBIDDEN);
         }

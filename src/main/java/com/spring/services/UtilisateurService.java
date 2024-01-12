@@ -21,10 +21,12 @@ public class UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
-
     public Utilisateur findByEmailAndPassword(String email, String password) {
-        return utilisateurRepository.findByEmailAndPassword(email, password);
+        return utilisateurRepository.findByEmailAndMdp(email, password);
     }
 
+    public Utilisateur inscrireUtilisateur(Utilisateur utilisateur) {
+        return utilisateurRepository.save(utilisateur);
+    }
 
 }

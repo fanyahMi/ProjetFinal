@@ -68,7 +68,7 @@ public class CategorieController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             Categorie savedCategorie = categorieService.saveCategory(categorie);
             response.setStatus_code("200");
             response.setData(savedCategorie);
@@ -88,7 +88,7 @@ public class CategorieController {
 
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             categorieService.deleteCategory(id);
             response.setStatus_code("200");
             response.setMessage("réussi");

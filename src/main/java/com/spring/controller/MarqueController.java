@@ -73,7 +73,7 @@ public class MarqueController {
         Response response = new Response();
         try {
             marqueService.addMarque(marque);
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             response.setStatus_code("200");
             response.setMessage("réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -90,7 +90,7 @@ public class MarqueController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             marqueService.updateMarque(id, newMarque);
             response.setStatus_code("200");
             response.setMessage("update réussi");
@@ -108,7 +108,7 @@ public class MarqueController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             marqueService.deleteMarque(id);
             response.setStatus_code("200");
             response.setMessage("Supprimé réussi");
