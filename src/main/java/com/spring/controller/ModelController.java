@@ -160,7 +160,7 @@ public class ModelController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             Model modelSave = modelService.saveModel(model);
             response.setStatus_code("200");
             response.setData(modelSave);
@@ -180,7 +180,7 @@ public class ModelController {
 
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             modelService.deleteModel(id);
             response.setStatus_code("200");
             response.setMessage("réussi");
