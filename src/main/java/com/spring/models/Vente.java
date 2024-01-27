@@ -11,50 +11,61 @@ import jakarta.persistence.Id;
 public class Vente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVente;
-    private Long annonceId;
-    private Long acheteurId;
-    private double prixAchat;
-    private Date dateAchat;
+    private Long id_vente;
+    private Long annonce_id; 
+    private Long acheteur_id; 
+    private Long prix_achat; 
+    private Long taux_comission; 
+    private Date date_achat;
 
-    public Long getIdVente() {
-        return idVente;
+    public Vente() {
     }
 
-    public void setIdVente(Long idVente) {
-        this.idVente = idVente;
+    public Long getId_vente() {
+        return id_vente;
     }
 
-    public Long getAnnonceId() {
-        return annonceId;
+    public void setId_vente(Long id_vente) {
+        this.id_vente = id_vente;
     }
 
-    public void setAnnonceId(Long annonceId) {
-        this.annonceId = annonceId;
+    public Long getAnnonce_id() {
+        return annonce_id;
     }
 
-    public Long getAcheteurId() {
-        return acheteurId;
+    public void setAnnonce_id(Long annonce_id) {
+        this.annonce_id = annonce_id;
     }
 
-    public void setAcheteurId(Long acheteurId) {
-        this.acheteurId = acheteurId;
+    public Long getAcheteur_id() {
+        return acheteur_id;
     }
 
-    public double getPrixAchat() {
-        return prixAchat;
+    public void setAcheteur_id(Long acheteur_id) {
+        this.acheteur_id = acheteur_id;
     }
 
-    public void setPrixAchat(double prixAchat) {
-        this.prixAchat = prixAchat;
+    public Long getPrix_achat() {
+        return prix_achat;
     }
 
-    public Date getDateAchat() {
-        return dateAchat;
+    public void setPrix_achat(Long prix_achat) {
+        this.prix_achat = prix_achat;
     }
 
-    public void setDateAchat(Date dateAchat) {
-        this.dateAchat = dateAchat;
+    public Long getTaux_comission() {
+        return taux_comission;
     }
 
+    public void setTaux_comission(Long taux_comission) {
+        this.taux_comission = taux_comission;
+    }
+
+    public Date getDate_achat() {
+        return date_achat;
+    }
+
+    public void setDate_achat(Date date_achat) {
+        this.date_achat = date_achat;
+    }
 }

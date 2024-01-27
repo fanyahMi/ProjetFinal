@@ -6,9 +6,6 @@ spring.jpa.hibernate.ddl-auto=update
 server.port=8080
 
 
-<<<<<<< Updated upstream
-=======
-
 
 
 spring.datasource.url=jdbc:postgresql://localhost:5432/vehicule2
@@ -17,6 +14,7 @@ spring.datasource.password=Hasinjo2
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.hibernate.ddl-auto=update
 server.port=8080
+
 
 
   public Connexion_projet() {
@@ -39,5 +37,28 @@ server.port=8080
     }
 
 
+drop view v_categorie_marque;
+drop view v_detail_annonce;
+drop view v_effectifstat;
+drop view v_marque_model;
+drop view v_model_annee;
+drop view v_model_details;
+drop view v_statannoncemois;
+drop view v_statventemois;
+drop view v_utilisateur;
+drop view v_vente;\dv
+drop table boitevitesse;
+drop table comission;
+drop table token;
+drop table vente;
+drop table annonce;
+drop table lieu;
+drop table voiture;
+ drop table anneesortie;
+ drop table modelcarburant;
+ drop table carburant;
+ drop table model;
+ drop table marque;
+ drop table categorie;
 
->>>>>>> Stashed changes
+ drop table utilisateur;

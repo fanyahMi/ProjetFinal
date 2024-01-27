@@ -10,7 +10,7 @@ public class Anneesortie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_anneesortie;
-    private Long model_id;
+    private Long modelId;
     private int annee;
 
     public Long getId_anneesortie() {
@@ -21,12 +21,12 @@ public class Anneesortie {
         this.id_anneesortie = id_anneesortie;
     }
 
-    public Long getModel_id() {
-        return model_id;
+    public Long getModelId() {
+        return modelId;
     }
 
-    public void setModel_id(Long model_id) {
-        this.model_id = model_id;
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 
     public int getAnnee() {

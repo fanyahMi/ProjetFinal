@@ -1,5 +1,6 @@
 package com.spring.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,22 +10,24 @@ import jakarta.persistence.Id;
 public class Comission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_Comission;
-    private double taux;
+    @Column(name = "id_comission")
+    private Long idComission;
 
-    public Long getId_Comission() {
-        return id_Comission;
+    private Long taux;
+
+    public Long getIdComission() {
+        return idComission;
     }
 
-    public void setId_Comission(Long id_Comission) {
-        this.id_Comission = id_Comission;
+    public void setIdComission(Long idComission) {
+        this.idComission = idComission;
     }
 
-    public double getTaux() {
+    public Long getTaux() {
         return taux;
     }
 
-    public void setTaux(double taux) {
+    public void setTaux(Long taux) {
         this.taux = taux;
     }
 

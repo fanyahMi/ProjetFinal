@@ -9,15 +9,24 @@ import jakarta.persistence.Id;
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCategorie;
+    private Integer idCategorie;
     private String categorie;
 
-    public Long getIdCategorie() {
+    public Integer getIdCategorie() {
         return idCategorie;
     }
 
-    public void setIdCategorie(Long idCategorie) {
+    public void setIdCategorie(Integer idCategorie) {
         this.idCategorie = idCategorie;
+    }
+
+    public void setIdCategorie(String idCategorie) throws Exception {
+        try {
+            setIdCategorie(Integer.parseInt(idCategorie));
+        } catch (Exception e) {
+            throw new Exception("Il ya une erreur");
+            // TODO: handle exception
+        }
     }
 
     public String getCategorie() {

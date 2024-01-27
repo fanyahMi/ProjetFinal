@@ -17,11 +17,11 @@ public class Connexion_projet extends Connexion {
 
     public Connexion_projet() {
         setBase("postgresql");
-        setUser("postgres");
-        setPassword("Hasinjo2");
-        setDatabase("vehicule2");
-        setHote("localhost");
-        setPort("5432");
+        setUser("avnadmin");
+        setPassword("AVNS_REgdYZyuG2l4-P9Jkor");
+        setDatabase("defaultdb");
+        setHote("pg-33f46b02-toavinahasnii02-5d6a.a.aivencloud.com");
+        setPort("20685");
     }
 
 }

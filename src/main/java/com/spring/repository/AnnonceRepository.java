@@ -10,12 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.models.Annonce;
 
 public interface AnnonceRepository extends JpaRepository<Annonce, Long> {
-    
+
     @Query("UPDATE Annonce SET statut = ?1, dateConfirmation = current_date WHERE idAnnonce = ?2")
     @Modifying
     @Transactional
-    void updateStatutById(int statut, Long id);
-    
+    void authoriser(int statut, Long id);
+
+    @Query("UPDATE Annonce SET statut = ?1 WHERE idAnnonce = ?2")
+    @Modifying
+    @Transactional
+    void vendu(int statut, Long id);
+
     @Query("SELECT MAX(a.idAnnonce) FROM Annonce a")
     Long findMaxId();
 
