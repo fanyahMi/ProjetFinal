@@ -53,7 +53,7 @@ public class MarqueService {
         try {
             c = new Connexion_projet().getconnection();
             CategorieMarqueView detail = new CategorieMarqueView();
-            detail.setIdMarque(marque.getId_marque());
+            detail.setIdCategorie(marque.getId_marque());
             return detail.findAll(c);
         } catch (Exception e) {
             throw e;

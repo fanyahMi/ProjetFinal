@@ -7,7 +7,7 @@ import com.spring.dao.dao.Generic2;
 @Table(libelle = "v_categorie_marque")
 public class CategorieMarqueView extends Generic2 {
     @Column(libelle = "id_marque")
-    private Integer idMarque;
+    private Integer id_marque;
 
     @Column(libelle = "marque")
     private String marque;
@@ -18,12 +18,12 @@ public class CategorieMarqueView extends Generic2 {
     @Column(libelle = "categorie")
     private String categorie;
 
-    public Integer getIdMarque() {
-        return idMarque;
+    public Integer getId_marque() {
+        return id_marque;
     }
 
-    public void setIdMarque(Integer idMarque) {
-        this.idMarque = idMarque;
+    public void setId_marque(Integer id_marque) {
+        this.id_marque = id_marque;
     }
 
     public String getMarque() {

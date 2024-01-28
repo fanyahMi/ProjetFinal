@@ -18,7 +18,11 @@ public class AnnonceService {
     }
 
     public void authorise(Long id) {
-        annonceRepository.updateStatutById(2, id);
+        annonceRepository.authoriser(2, id);
+    }
+
+    public void vendu(Long id) {
+        annonceRepository.vendu(3, id);
     }
 
     public List<Annonce> getAllAnnonces() {

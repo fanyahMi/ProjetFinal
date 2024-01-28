@@ -20,4 +20,15 @@ public class CarburantService {
     public Carburant saveCarburant(Carburant carburant) {
         return carburantrepository.save(carburant);
     }
+
+    public void deleteCarburant(Long id) {
+        carburantrepository.deleteById(id);
+    }
+
+    public Carburant updateCarburant(Long id, Carburant updatedCarburant) {
+        Carburant existingCarburant = carburantrepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Le carburant n'est pas trouvée " + id));
+        existingCarburant.setCarburant(updatedCarburant.getCarburant());
+        return carburantrepository.save(existingCarburant);
+    }
 }

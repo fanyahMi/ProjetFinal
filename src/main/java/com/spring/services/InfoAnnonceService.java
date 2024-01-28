@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.spring.models.FiltreAnnonce;
 import com.spring.models.InfoAnnonce;
 import com.spring.repository.InfoAnnonceRepository;
 
@@ -28,9 +29,16 @@ public class InfoAnnonceService {
         return infoAnnonceRepository.findAll();
     }
 
-    public void updateStatutByAnnonceId(String annonceId) {
+    public List<InfoAnnonce> getInfoAnnonceByFiltre(FiltreAnnonce filtreAnnonce) {
+        Query query = new Query();
+        filtreAnnonce.setQueryCriteria(query);
+
+        return mongoTemplate.find(query, InfoAnnonce.class);
+    }
+
+    public void updateStatutByAnnonceId(String annonceId, Long status) {
         Query query = new Query(Criteria.where("annonce_id").is(annonceId));
-        Update update = Update.update("statut", (long) 2);
+        Update update = Update.update("statut", status);
         mongoTemplate.updateFirst(query, update, InfoAnnonce.class);
     }
 
@@ -42,6 +50,10 @@ public class InfoAnnonceService {
 
     public List<InfoAnnonce> getAllAuthorizedAnnonces() {
         return infoAnnonceRepository.findByStatutEquals(2);
+    }
+
+    public List<InfoAnnonce> getAllUnsoldAnnonce() {
+        return infoAnnonceRepository.findByStatutInferiorTo(3);
     }
 
     public List<InfoAnnonce> getAllAuteurAnnonces(String auteur_id) {
@@ -57,7 +69,7 @@ public class InfoAnnonceService {
     }
 
     public InfoAnnonce getInfoAnnonceByAnnonceId(String annonce_id) {
-        return infoAnnonceRepository.findByAnnonceId(annonce_id);
+        return infoAnnonceRepository.findByAnnonceId(annonce_id).get(0);
     }
 
     public InfoAnnonce saveInfoAnnonce(InfoAnnonce infoAnnonce) {

@@ -15,6 +15,8 @@ import com.spring.models.Comission;
 import com.spring.services.ComissionService;
 import com.spring.services.TokenService;
 import com.spring.utility.Response;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -32,8 +34,29 @@ public class AdminController {
         Response response = new Response();
         try {
             tokenService.checkRole(authorizationHeader, 10);
-            System.out.println(comission.getTaux() + " jbsfj");
             response.setData(serviceComission.saveComission(comission));
+            response.setStatus_code("200");
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @GetMapping("v1/comissions")
+    public ResponseEntity<Response> ListCommissionComission(
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+        try {
+            tokenService.checkRole(authorizationHeader, 10);
+            response.setData(serviceComission.getListCommission());
             response.setStatus_code("200");
             response.setMessage("réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);

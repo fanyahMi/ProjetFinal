@@ -3,16 +3,13 @@ package com.spring.models;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.IOUtils;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
-
-import net.coobird.thumbnailator.Thumbnails;
+import java.util.UUID;
 
 public class Photo {
     private String data;
@@ -21,73 +18,47 @@ public class Photo {
     public Photo() {
 
     }
-    
+
     public Photo(String data, String contentType) {
         this.data = data;
         this.contentType = contentType;
     }
 
-    public Photo(MultipartFile file) {
-            // Convertir le fichier en base64
-            byte[] fileBytes = toOptimizedFormat(file);
-            String base64EncodedImageData = Base64.getEncoder().encodeToString(fileBytes);
+    public File toFile() throws FileNotFoundException, IOException {
+        // Décoder la chaîne Base64 en un tableau de bytes
+        byte[] decodedBytes = Base64.getDecoder().decode(this.data);
 
-            this.data = base64EncodedImageData;
-            this.contentType = file.getContentType();
+        // Créer un nouveau fichier
+        File file = new File(this.generateRandomFileName());
 
-            System.out.println("** Img-Data success **");
+        // Écrire le tableau de bytes dans le fichier
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(decodedBytes);
+        }
+
+        return file;
     }
 
     public String getData() {
         return data;
     }
+
     public void setData(String data) {
         this.data = data;
     }
+
     public String getContentType() {
         return contentType;
     }
+
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
 
-    public static byte[]  resizeTo360p(byte[] fileBytes) {
-        // Assuming you have the original byte array in fileBytes
-        byte[] resizedBytes = null;
+    public String generateRandomFileName() {
+        String fileName = UUID.randomUUID().toString().concat("." + this.contentType.split("/")[1]);
 
-        try {
-            // Convert the byte array to an InputStream
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(fileBytes);
-
-            // Resize the image to 360p
-            BufferedImage resizedImage = Thumbnails.of(inputStream)
-                    .size(640, 360)
-                    .outputFormat("jpg")
-                    .asBufferedImage();
-
-            // Convert the resized BufferedImage back to a byte array
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(resizedImage, "jpg", outputStream);
-            resizedBytes = outputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resizedBytes;
+        return fileName;
     }
 
-    public static byte[]  toOptimizedFormat(MultipartFile file) {
-        long fileSize = file.getSize();
-
-        try {
-            if (fileSize >= 1 * 1024 * 1024) { // Vérifier si la taille est supérieure ou égale à 1 Mo (en octets)
-                return Photo.resizeTo360p(IOUtils.toByteArray(file.getInputStream()));
-            } 
-            return IOUtils.toByteArray(file.getInputStream());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
 }

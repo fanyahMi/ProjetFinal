@@ -78,12 +78,14 @@ public class TokenService {
 
     public void checkRole(String authorizationHeader, int role) throws TokenException {
         Claims claims = validationToken(authorizationHeader);
-        System.out.println(claims.get("role") + "  h");
         if (!claims.get("role").equals(role)) {
-            System.out.println(claims.get("role") + "gg  h");
             throw new TokenException("Accès interdit. Vous n'avez pas le droit d'accéder à cette ressource", "403",
                     HttpStatus.FORBIDDEN);
         }
+    }
+
+    public Claims getClaims(String authorizationHeader) throws TokenException {
+        return validationToken(authorizationHeader);
     }
 
     public void checkSansRole(String authorizationHeader) throws TokenException {

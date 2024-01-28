@@ -1,7 +1,7 @@
 \c postgres;
-drop database vehicule2;
-create database vehicule2;
-\c vehicule2;
+drop database vehicule;
+create database vehicule;
+\c vehicule;
 
 create table token(
     id_token serial primary key,
@@ -65,6 +65,11 @@ create table modelcarburant(
 );
 
 
+create table lieu(
+    id_lieu serial primary key,
+    lieu varchar(120) not null
+);
+
 create table voiture(
     id_voiture serial primary key,
     model_id int references model(id_model),
@@ -77,6 +82,8 @@ create table voiture(
 create table annonce(
     id_annonce serial primary key,
     voiture_id int references voiture(id_voiture),
+    lieu_id int references lieu(id_lieu),
+    vendeur_id int references utilisateur(id_utilisateur),
     prix_vente double precision,
     statut int,
     date_annonce Date not null,
@@ -88,7 +95,8 @@ create table vente(
     annonce_id int references annonce(id_annonce),
     acheteur_id int references utilisateur(id_utilisateur),
     prix_achat double precision,
-    date_achat date  null
+    taux_comission double precision,
+    date_achat date default current_date
 );
 
 

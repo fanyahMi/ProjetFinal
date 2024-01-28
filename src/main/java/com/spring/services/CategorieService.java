@@ -52,4 +52,11 @@ public class CategorieService {
                 c.close();
         }
     }
+
+    public Categorie updateCategory(Integer id, Categorie updatedCategorie) {
+        Categorie existingCategory = categorieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+        existingCategory.setCategorie(updatedCategorie.getCategorie());
+        return categorieRepository.save(existingCategory);
+    }
 }

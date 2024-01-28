@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.exception.TokenException;
 import com.spring.models.Categorie;
-import com.spring.models.Model;
 import com.spring.services.CategorieService;
 import com.spring.services.TokenService;
 import com.spring.utility.Response;
@@ -102,9 +102,9 @@ public class CategorieController {
         }
     }
 
-    /**** Liste annee par model ****/
+    /**** Liste liste marqie par categorie ****/
     @GetMapping("v1/marques/{idCategorie}")
-    public ResponseEntity<Response> listDeitailModelAnnee(
+    public ResponseEntity<Response> listmarqueCategorie(
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idCategorie) {
         Response response = new Response();
         try {
@@ -123,6 +123,32 @@ public class CategorieController {
             response.setStatus_code("401");
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> updateCategory(@PathVariable Integer id,
+            @RequestBody Categorie categorie,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Response response = new Response();
+
+        try {
+            tokenService.checkRole(authorizationHeader, 10);
+            Categorie updatedCategory = categorieService.updateCategory(id, categorie);
+            response.setStatus_code("200");
+            response.setData(updatedCategory);
+            response.setMessage("La catégorie a été mise à jour avec succès.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+
+        } catch (RuntimeException e) {
+            response.setStatus_code("404");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 

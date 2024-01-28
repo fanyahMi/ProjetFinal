@@ -34,6 +34,7 @@ public class MarqueController {
     @GetMapping
     public ResponseEntity<Response> getAllMarques(@RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
+
         try {
             tokenService.checkSansRole(authorizationHeader);
             response.setStatus_code("200");
@@ -145,7 +146,7 @@ public class MarqueController {
     }
 
     /* Liste model par marque */
-    @GetMapping("v1/models/{idmarque}")
+    @GetMapping("/v1/models/{idmarque}")
     public ResponseEntity<Response> listModelMarque(
             @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idmarque) {
         Response response = new Response();
