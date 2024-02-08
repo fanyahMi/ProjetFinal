@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import com.spring.models.Annonce;
 import com.spring.repository.AnnonceRepository;
 
@@ -41,8 +42,17 @@ public class AnnonceService {
         return annonceRepository.save(annonce);
     }
 
-    public Annonce updateAnnonce(Annonce annonce) {
-        return annonceRepository.save(annonce);
+    public Annonce updateAnnonce(Annonce newAnnonce) {
+        Optional<Annonce> optannonce = annonceRepository.findById(newAnnonce.getIdAnnonce());
+
+        if (optannonce.isPresent()) {
+            Annonce annonce = optannonce.get();
+            annonce.updateTo(newAnnonce);
+
+            return annonceRepository.save(annonce);
+        }
+
+        return null;
     }
 
     public void deleteAnnonce(Long id) {

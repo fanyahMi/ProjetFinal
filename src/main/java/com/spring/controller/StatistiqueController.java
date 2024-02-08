@@ -1,5 +1,6 @@
 package com.spring.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,8 +54,14 @@ public class StatistiqueController {
     public ResponseEntity<Response> getStatistique(@RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            Long annee = (long) 2024;
-            Long mois = (long) 1;
+            LocalDate aujourdhui = LocalDate.now();
+
+            // Obtenir le mois et l'année actuels
+            int moisActuel = aujourdhui.getMonthValue();
+            int anneeActuelle = aujourdhui.getYear();
+
+            Long annee = (long) anneeActuelle;
+            Long mois = (long) moisActuel;
 
             EffectifStatView statEffectif = statEffectifService.getEffectifStat().get();
             List<AnnonceStatView> statAnnonce = statAnnonceService.getAllAnnonceStatOfMonth(mois, annee);

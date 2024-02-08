@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil2 {
-    private long JWT_EXPIRATION_MINUTES = 30;
+    private long JWT_EXPIRATION_MINUTES = 180;
 
     public Map<String, Object> generateToken(Utilisateur utilisateur) {
         Date now = new Date();

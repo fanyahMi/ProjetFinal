@@ -1,5 +1,6 @@
 package com.spring.services;
 
+import com.spring.models.Annonce;
 import com.spring.models.Utilisateur;
 import com.spring.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,7 @@ public class UtilisateurService {
         return utilisateurRepository.save(utilisateur);
     }
 
+    public Utilisateur getUtilisateurById(Long id) {
+        return utilisateurRepository.findById(id).orElse(null);
+    }
 }

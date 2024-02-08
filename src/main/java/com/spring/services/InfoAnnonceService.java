@@ -76,7 +76,16 @@ public class InfoAnnonceService {
         return infoAnnonceRepository.save(infoAnnonce);
     }
 
+    public InfoAnnonce updateInfoAnnonce(InfoAnnonce newInfoAnnonce) {
+        InfoAnnonce infoannonce = infoAnnonceRepository.findByAnnonceId(newInfoAnnonce.getAnnonce_id().toString())
+                .get(0);
+
+        infoannonce.updateTo(newInfoAnnonce);
+
+        return infoAnnonceRepository.save(infoannonce);
+    }
+
     public void deleteInfoAnnonce(String annonce_id) {
-        infoAnnonceRepository.deleteById(annonce_id);
+        infoAnnonceRepository.deleteByAnnonceId(annonce_id);
     }
 }
