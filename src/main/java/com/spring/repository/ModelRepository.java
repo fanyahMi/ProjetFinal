@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.spring.models.Model;
 
-public interface ModelRepository extends JpaRepository<Model, Long> {
+public interface ModelRepository extends JpaRepository<Model, Integer> {
 
 }

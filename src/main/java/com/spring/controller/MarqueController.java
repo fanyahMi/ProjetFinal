@@ -34,6 +34,7 @@ public class MarqueController {
     @GetMapping
     public ResponseEntity<Response> getAllMarques(@RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
+
         try {
             tokenService.checkSansRole(authorizationHeader);
             response.setStatus_code("200");
@@ -50,7 +51,7 @@ public class MarqueController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getMarqueById(@PathVariable Long id,
+    public ResponseEntity<Response> getMarqueById(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
@@ -73,7 +74,7 @@ public class MarqueController {
         Response response = new Response();
         try {
             marqueService.addMarque(marque);
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             response.setStatus_code("200");
             response.setMessage("réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -86,11 +87,11 @@ public class MarqueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateMarque(@PathVariable Long id, @RequestBody Marque newMarque,
+    public ResponseEntity<Response> updateMarque(@PathVariable Integer id, @RequestBody Marque newMarque,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             marqueService.updateMarque(id, newMarque);
             response.setStatus_code("200");
             response.setMessage("update réussi");
@@ -104,11 +105,11 @@ public class MarqueController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteMarque(@PathVariable Long id,
+    public ResponseEntity<Response> deleteMarque(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, "Admin");
+            tokenService.checkRole(authorizationHeader, 10);
             marqueService.deleteMarque(id);
             response.setStatus_code("200");
             response.setMessage("Supprimé réussi");
@@ -117,6 +118,54 @@ public class MarqueController {
             response.setStatus_code(e.getStatus_code());
             response.setMessage(e.getMessage());
             return new ResponseEntity<>(response, e.getStatus());
+        }
+    }
+
+    /* Liste categorie par marque */
+    @GetMapping("v1/categories/{idmarque}")
+    public ResponseEntity<Response> listDeitailModelAnnee(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idmarque) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            Marque marque = new Marque();
+            marque.setId_marque(idmarque);
+            response.setData(marqueService.getListeCategorieMarque(marque));
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /* Liste model par marque */
+    @GetMapping("/v1/models/{idmarque}")
+    public ResponseEntity<Response> listModelMarque(
+            @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idmarque) {
+        Response response = new Response();
+        try {
+            tokenService.checkSansRole(authorizationHeader);
+            response.setStatus_code("200");
+            Marque marque = new Marque();
+            marque.setId_marque(idmarque);
+            response.setData(marqueService.getListeModelMarque(marque));
+            response.setMessage("réussi");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (TokenException e) {
+            response.setStatus_code(e.getStatus_code());
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, e.getStatus());
+        } catch (Exception e) {
+            response.setStatus_code("401");
+            response.setMessage(e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
     }
 }

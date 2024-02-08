@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil2 {
-    private long JWT_EXPIRATION_MINUTES = 40;
+    private long JWT_EXPIRATION_MINUTES = 30;
 
     public Map<String, Object> generateToken(Utilisateur utilisateur) {
         Date now = new Date();
@@ -23,8 +23,10 @@ public class JwtUtil2 {
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
         String cle = generateSecretKey();
         Claims claims = Jwts.claims().setSubject(Long.toString(utilisateur.getId_utilisateur()));
-        claims.put("role", utilisateur.getRole());
-        if (utilisateur.getRole().equals("admin")) {
+        claims.put("role", utilisateur.getRoles());
+        claims.put("idUtilisateur", utilisateur.getId_utilisateur());
+        claims.put("nomPrenom", (utilisateur.getNom() + "  " + utilisateur.getPrenom()));
+        if (utilisateur.getRoles() == 10) {
             claims.put("admin", true);
         } else {
             claims.put("user", true);

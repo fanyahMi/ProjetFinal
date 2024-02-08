@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Annonce {
@@ -13,11 +14,33 @@ public class Annonce {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAnnonce;
     private Long voitureId;
+    private Long lieuId;
     private Long vendeurId;
     private double prixVente;
     private int statut;
     private Date dateAnnonce;
     private Date dateConfirmation;
+
+    @Transient
+    Voiture voiture;
+    @Transient
+    InfoAnnonce infoAnnonce;
+
+    public InfoAnnonce getInfoAnnonce() {
+        return infoAnnonce;
+    }
+
+    public void setInfoAnnonce(InfoAnnonce infoAnnonce) {
+        this.infoAnnonce = infoAnnonce;
+    }
+
+    public Voiture getVoiture() {
+        return voiture;
+    }
+
+    public void setVoiture(Voiture voiture) {
+        this.voiture = voiture;
+    }
 
     public Long getIdAnnonce() {
         return idAnnonce;
@@ -33,6 +56,14 @@ public class Annonce {
 
     public void setVoitureId(Long voitureId) {
         this.voitureId = voitureId;
+    }
+
+    public Long getLieuId() {
+        return lieuId;
+    }
+
+    public void setLieuId(Long lieuId) {
+        this.lieuId = lieuId;
     }
 
     public Long getVendeurId() {
