@@ -1,5 +1,7 @@
 package com.spring.models;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,12 @@ public class Comission {
 
     private Long taux;
 
+    private Date datecomission;
+
+    public void test() {
+
+    };
+
     public Long getIdComission() {
         return idComission;
     }
@@ -29,6 +37,14 @@ public class Comission {
 
     public void setTaux(Long taux) {
         this.taux = taux;
+    }
+
+    public Date getDatecomission() {
+        return datecomission;
+    }
+
+    public void setDatecomission(Date datecomission) {
+        this.datecomission = datecomission;
     }
 
 }

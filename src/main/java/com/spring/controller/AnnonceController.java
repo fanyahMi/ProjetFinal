@@ -1,5 +1,8 @@
 package com.spring.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,38 +63,21 @@ public class AnnonceController {
     // Long userIdx = (long) 1;
 
     @GetMapping
-    public ResponseEntity<Response> getAllInfoAnnonces(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Response> getAllInfoAnnonces() {
         Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(infoAnnonceService.getAllInfoAnnonces());
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        }
+        response.setStatus_code("200");
+        response.setData(infoAnnonceService.getAllInfoAnnonces());
+        response.setMessage("réussi");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("filtre")
-    public ResponseEntity<Response> getAllInfoAnnonceByFiltre(@RequestBody FiltreAnnonce filtre,
-            @RequestHeader("Authorization") String authorizationHeader) {
+    @PostMapping("filtre")
+    public ResponseEntity<Response> getAllInfoAnnonceByFiltre(@RequestBody FiltreAnnonce filtre) {
         Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(infoAnnonceService.getInfoAnnonceByFiltre(filtre));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        }
+        response.setStatus_code("200");
+        response.setData(infoAnnonceService.getInfoAnnonceByFiltre(filtre));
+        response.setMessage("réussi");
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 
@@ -114,21 +100,26 @@ public class AnnonceController {
     }
 
     @GetMapping("/valide")
-    public ResponseEntity<Response> getAllAuthorizedAnnonces(
-            @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Response> getAllAuthorizedAnnonces() {
         Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(infoAnnonceService.getAllAuthorizedAnnonces());
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        }
+        /*
+         * try {
+         * tokenService.checkSansRole(authorizationHeader);
+         * response.setStatus_code("200");
+         * response.setData(infoAnnonceService.getAllAuthorizedAnnonces());
+         * response.setMessage("réussi");
+         * return new ResponseEntity<>(response, HttpStatus.OK);
+         * 
+         * } catch (TokenException e) {
+         * response.setStatus_code(e.getStatus_code());
+         * response.setMessage(e.getMessage());
+         * return new ResponseEntity<>(response, e.getStatus());
+         * }
+         */
+        response.setStatus_code("200");
+        response.setData(infoAnnonceService.getAllAuthorizedAnnonces());
+        response.setMessage("réussi");
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
 
@@ -150,14 +141,16 @@ public class AnnonceController {
 
     }
 
-    @GetMapping("/utilisateur/{id}")
-    public ResponseEntity<Response> getUtilisateurAnnonces(@PathVariable Long id,
+    @GetMapping("/utilisateur")
+    public ResponseEntity<Response> getUtilisateurAnnonces(
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
             tokenService.checkSansRole(authorizationHeader);
+            Claims claims = tokenService.getClaims(authorizationHeader);
+            String userid = claims.get("idUtilisateur").toString();
             response.setStatus_code("200");
-            response.setData(infoAnnonceService.getAllAuteurAnnonces(id.toString()));
+            response.setData(infoAnnonceService.getAllAuteurAnnonces(userid));
             response.setMessage("réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -169,14 +162,16 @@ public class AnnonceController {
 
     }
 
-    @GetMapping("/favoris/{id}")
-    public ResponseEntity<Response> getUtilisateurFavorisAnnonces(@PathVariable Long id,
+    @GetMapping("/utilisateurs/favoris")
+    public ResponseEntity<Response> getUtilisateurFavorisAnnonces(
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
             tokenService.checkSansRole(authorizationHeader);
             response.setStatus_code("200");
-            response.setData(infoAnnonceService.getAllAuteurFavoris(id.toString()));
+            Claims claims = tokenService.getClaims(authorizationHeader);
+            Long userId = Long.parseLong(claims.get("idUtilisateur").toString());
+            response.setData(infoAnnonceService.getAllAuteurFavoris(claims.get("idUtilisateur").toString()));
             response.setMessage("réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -188,21 +183,26 @@ public class AnnonceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> getAnnonceById(@PathVariable String id,
-            @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Response> getAnnonceById(@PathVariable String id) {
         Response response = new Response();
-        try {
-            tokenService.checkSansRole(authorizationHeader);
-            response.setStatus_code("200");
-            response.setData(infoAnnonceService.getInfoAnnonceByAnnonceId(id));
-            response.setMessage("réussi");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (TokenException e) {
-            response.setStatus_code(e.getStatus_code());
-            response.setMessage(e.getMessage());
-            return new ResponseEntity<>(response, e.getStatus());
-        }
+        /*
+         * try {
+         * // tokenService.checkSansRole(authorizationHeader);
+         * response.setStatus_code("200");
+         * response.setData(infoAnnonceService.getInfoAnnonceByAnnonceId(id));
+         * response.setMessage("réussi");
+         * return new ResponseEntity<>(response, HttpStatus.OK);
+         * 
+         * } catch (TokenException e) {
+         * response.setStatus_code(e.getStatus_code());
+         * response.setMessage(e.getMessage());
+         * return new ResponseEntity<>(response, e.getStatus());
+         * }
+         */
+        response.setStatus_code("200");
+        response.setData(infoAnnonceService.getInfoAnnonceByAnnonceId(id));
+        response.setMessage("réussi");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
@@ -210,18 +210,23 @@ public class AnnonceController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, 10);
+            tokenService.checkRole(authorizationHeader, 1);
             Claims claims = tokenService.getClaims(authorizationHeader);
             Long userId = Long.parseLong(claims.get("idUtilisateur").toString());
 
             annonce.setVendeurId(userId);
+            annonce.setStatut(1);
             voitureService.addVoiture(annonce.getVoiture());
             Long idVoiture = voitureService.getLatestId(); // Id du dernier voiture ajoutee
             annonce.setVoitureId(idVoiture);
+            LocalDate currentDate = LocalDate.now();
+            annonce.setDateAnnonce(Date.valueOf(currentDate));
             annonceService.addAnnonce(annonce);
             Long idAnnonce = annonceService.getLatestId(); // Id du dernier annonce ajoutee
             annonce.getInfoAnnonce().setAnnonce_id(idAnnonce.toString());
             annonce.getInfoAnnonce().setAuteur_id(userId.toString());
+            annonce.getInfoAnnonce().setStatut(Long.parseLong("1"));
+            annonce.getInfoAnnonce().setDate_annonce(Date.valueOf(currentDate));
             annonce.getInfoAnnonce()
                     .setDetailvoitureANDInit(annonceDetailViewService.getAnnonceDetailViewById(idAnnonce).get());
 
@@ -254,6 +259,7 @@ public class AnnonceController {
             Long idAnnonce = annonceService.getLatestId(); // Id du dernier annonce ajoutee
             annonce.getInfoAnnonce().setAnnonce_id(idAnnonce.toString());
             annonce.getInfoAnnonce().setAuteur_id(userId.toString());
+            annonce.getInfoAnnonce().setStatut((long) 1);
             annonce.getInfoAnnonce()
                     .setDetailvoitureANDInit(annonceDetailViewService.getAnnonceDetailViewById(idAnnonce).get());
 
@@ -301,15 +307,13 @@ public class AnnonceController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, 10);
-
-            System.out.println("tyfgfsh " + comisssionservice.getComissionlast());
+            tokenService.checkRole(authorizationHeader, 1);
             vente.setTaux_comission(comisssionservice.getComissionlast());
             annonceService.vendu(vente.getAnnonce_id());
             infoAnnonceService.updateStatutByAnnonceId(vente.getAnnonce_id().toString(), (long) 3);
-            venteService.newVente(vente);
             response.setStatus_code("200");
             response.setMessage("update réussi");
+            response.setData(venteService.newVente(vente));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (TokenException e) {
             response.setStatus_code(e.getStatus_code());
@@ -323,7 +327,7 @@ public class AnnonceController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, 10);
+            tokenService.checkRole(authorizationHeader, 1);
             Claims claims = tokenService.getClaims(authorizationHeader);
             Long userId = Long.parseLong(claims.get("idUtilisateur").toString());
             annonceService.authorise(id);
@@ -338,14 +342,25 @@ public class AnnonceController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Response> updateAnnonce(@PathVariable Long id,
-            @RequestBody Annonce newAnnonce,
+    @PutMapping
+    public ResponseEntity<Response> updateAnnonce(
+            @RequestBody Annonce annonce,
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, 10);
-            annonceService.updateAnnonce(newAnnonce);
+            tokenService.checkSansRole(authorizationHeader);
+
+            annonce = annonceService.updateAnnonce(annonce);
+            annonce.setVoiture(voitureService.updateVoiture(annonce.getVoiture()));
+            annonce.getInfoAnnonce().setDetailvoitureANDInit(
+                    annonceDetailViewService.getAnnonceDetailViewById(annonce.getIdAnnonce()).get());
+
+            // Uploader les photos vers firebase et avoir les liens vers mongodb
+            // photoService.uploadAll(annonce.getInfoAnnonce().getPhotos());
+
+            infoAnnonceService.updateInfoAnnonce(annonce.getInfoAnnonce());
+
+            response.setData(annonceService.updateAnnonce(annonce));
             response.setStatus_code("200");
             response.setMessage("update réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -361,8 +376,17 @@ public class AnnonceController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Response response = new Response();
         try {
-            tokenService.checkRole(authorizationHeader, 10);
+            tokenService.checkSansRole(authorizationHeader);
+
+            Claims claims = tokenService.getClaims(authorizationHeader);
+            Long userId = Long.parseLong(claims.get("idUtilisateur").toString());
+            Annonce annonce = annonceService.getAnnonceById(id);
+            annonce.checkAuthorization(userId);
+
             annonceService.deleteAnnonce(id);
+            voitureService.deleteVoiture(annonce.getVoitureId());
+            infoAnnonceService.deleteInfoAnnonce(id.toString());
+
             response.setStatus_code("200");
             response.setMessage("Suppression réussi");
             return new ResponseEntity<>(response, HttpStatus.OK);

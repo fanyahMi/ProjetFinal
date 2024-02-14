@@ -17,6 +17,14 @@ public class Voiture {
     private Long modelcarburantId;
     private Long anneesortieId;
 
+    public void updateTo(Voiture news) {
+        this.setModelId(news.getModelId());
+        this.setMatricule(news.getMatricule());
+        this.setKilometrage(news.getKilometrage());
+        this.setModelcarburantId(news.getModelcarburantId());
+        this.setAnneesortieId(news.getAnneesortieId());
+    }
+
     public Long getIdVoiture() {
         return idVoiture;
     }
@@ -30,6 +38,7 @@ public class Voiture {
     }
 
     public void setModelId(Long modelId) {
+        if(modelId != null)
         this.modelId = modelId;
     }
 
@@ -38,6 +47,7 @@ public class Voiture {
     }
 
     public void setMatricule(String matricule) {
+        if(matricule != null)
         this.matricule = matricule;
     }
 
@@ -46,6 +56,7 @@ public class Voiture {
     }
 
     public void setUtilisateurId(Long utilisateurId) {
+        if(utilisateurId != null)
         this.utilisateurId = utilisateurId;
     }
 
@@ -54,6 +65,7 @@ public class Voiture {
     }
 
     public void setKilometrage(double kilometrage) {
+        if(kilometrage != 0)
         this.kilometrage = kilometrage;
     }
 
@@ -62,6 +74,7 @@ public class Voiture {
     }
 
     public void setModelcarburantId(Long modelcarburantId) {
+        if(modelcarburantId != null)
         this.modelcarburantId = modelcarburantId;
     }
 
@@ -70,6 +83,7 @@ public class Voiture {
     }
 
     public void setAnneesortieId(Long anneesortieId) {
+        if(anneesortieId != null)
         this.anneesortieId = anneesortieId;
     }
 

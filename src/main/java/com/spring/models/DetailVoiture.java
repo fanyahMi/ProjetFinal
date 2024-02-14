@@ -3,15 +3,26 @@ package com.spring.models;
 import com.spring.models.view.AnnonceDetailView;
 
 public class DetailVoiture {
-    private String matricule; 
+    private String model;
+    private String matricule;
     private Long kilometrage;
-    private String marque; 
-    private String categorie; 
-    private Long annee; 
+    private String marque;
+    private String categorie;
+    private Long annee;
     private String carburant;
 
-    public DetailVoiture(String matricule, Long kilometrage, String marque, String categorie, Long annee,
+    public void updateTo(DetailVoiture news) {
+        this.setMatricule(news.getMatricule());
+        this.setMarque(news.getMarque());
+        this.setKilometrage(news.getKilometrage());
+        this.setCategorie(news.getCategorie());
+        this.setAnnee(news.getAnnee());
+        this.setCarburant(news.getCarburant());
+    }
+
+    public DetailVoiture(String model, String matricule, Long kilometrage, String marque, String categorie, Long annee,
             String carburant) {
+        this.model = model;
         this.matricule = matricule;
         this.kilometrage = kilometrage;
         this.marque = marque;
@@ -24,6 +35,7 @@ public class DetailVoiture {
     }
 
     public DetailVoiture(AnnonceDetailView detailAnnonce) {
+        this.model = detailAnnonce.getModel();
         this.matricule = detailAnnonce.getMatricule();
         this.kilometrage = detailAnnonce.getKilometrage();
         this.marque = detailAnnonce.getMarque();
@@ -37,7 +49,8 @@ public class DetailVoiture {
     }
 
     public void setMatricule(String matricule) {
-        this.matricule = matricule;
+        if (matricule != null)
+            this.matricule = matricule;
     }
 
     public Long getKilometrage() {
@@ -45,7 +58,8 @@ public class DetailVoiture {
     }
 
     public void setKilometrage(Long kilometrage) {
-        this.kilometrage = kilometrage;
+        if (kilometrage != null)
+            this.kilometrage = kilometrage;
     }
 
     public String getMarque() {
@@ -53,7 +67,8 @@ public class DetailVoiture {
     }
 
     public void setMarque(String marque) {
-        this.marque = marque;
+        if (marque != null)
+            this.marque = marque;
     }
 
     public String getCategorie() {
@@ -61,7 +76,8 @@ public class DetailVoiture {
     }
 
     public void setCategorie(String categorie) {
-        this.categorie = categorie;
+        if (categorie != null)
+            this.categorie = categorie;
     }
 
     public Long getAnnee() {
@@ -69,7 +85,8 @@ public class DetailVoiture {
     }
 
     public void setAnnee(Long annee) {
-        this.annee = annee;
+        if (annee != null)
+            this.annee = annee;
     }
 
     public String getCarburant() {
@@ -77,7 +94,17 @@ public class DetailVoiture {
     }
 
     public void setCarburant(String carburant) {
-        this.carburant = carburant;
+        if (carburant != null)
+            this.carburant = carburant;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        if (model != null)
+            this.model = model;
     }
 
 }

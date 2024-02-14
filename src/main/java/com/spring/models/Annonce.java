@@ -2,6 +2,10 @@ package com.spring.models;
 
 import java.sql.Date;
 
+import org.springframework.http.HttpStatus;
+
+import com.spring.exception.TokenException;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +30,16 @@ public class Annonce {
     @Transient
     InfoAnnonce infoAnnonce;
 
+    public void updateTo(Annonce news) {
+        this.setLieuId(news.getLieuId());
+        this.setVendeurId(news.getVendeurId());
+        this.setPrixVente(news.getPrixVente());
+        this.voiture = news.getVoiture();
+        this.infoAnnonce = news.getInfoAnnonce();
+        this.infoAnnonce.setAnnonce_id(this.idAnnonce.toString());
+        this.voiture.setIdVoiture(this.voitureId);
+    }
+
     public InfoAnnonce getInfoAnnonce() {
         return infoAnnonce;
     }
@@ -47,7 +61,8 @@ public class Annonce {
     }
 
     public void setIdAnnonce(Long idAnnonce) {
-        this.idAnnonce = idAnnonce;
+        if (idAnnonce != null)
+            this.idAnnonce = idAnnonce;
     }
 
     public Long getVoitureId() {
@@ -63,7 +78,8 @@ public class Annonce {
     }
 
     public void setLieuId(Long lieuId) {
-        this.lieuId = lieuId;
+        if (lieuId != null)
+            this.lieuId = lieuId;
     }
 
     public Long getVendeurId() {
@@ -71,7 +87,8 @@ public class Annonce {
     }
 
     public void setVendeurId(Long vendeurId) {
-        this.vendeurId = vendeurId;
+        if (vendeurId != null)
+            this.vendeurId = vendeurId;
     }
 
     public double getPrixVente() {
@@ -79,7 +96,8 @@ public class Annonce {
     }
 
     public void setPrixVente(double prixVente) {
-        this.prixVente = prixVente;
+        if (prixVente != 0)
+            this.prixVente = prixVente;
     }
 
     public Date getDateAnnonce() {
@@ -106,4 +124,11 @@ public class Annonce {
         this.statut = statut;
     }
 
+    public void checkAuthorization(Long userId) throws TokenException {
+        if (this.vendeurId != userId) {
+            throw new TokenException("Accès refusé. Vous n'avez pas l'autorisation pour modifier cette ressource.",
+                    "403",
+                    HttpStatus.FORBIDDEN);
+        }
+    }
 }

@@ -27,6 +27,15 @@ public class InfoAnnonce {
     private List<Propriete> proprietes;
     private List<Photo> photos;
 
+    public void updateTo(InfoAnnonce news) {
+        this.setDescription(news.getDescription());
+        this.setProprietes(news.getProprietes());
+        this.setPrix_vente(news.getPrix_vente());
+        this.setLieu(news.getLieu());
+        this.detailvoiture = news.getDetailvoiture();
+        // this.setPhotos(news.getPhotos());
+    }
+
     public InfoAnnonce(String annonce_id, String description) {
         this.description = description;
         this.annonce_id = annonce_id;
@@ -67,10 +76,12 @@ public class InfoAnnonce {
     }
 
     public void setPrix_vente(Long prix_vente) {
+        if(prix_vente != null)
         this.prix_vente = prix_vente;
     }
 
     public void setDescription(String description) {
+        if(description != null)
         this.description = description;
     }
 
@@ -79,6 +90,7 @@ public class InfoAnnonce {
     }
 
     public void setProprietes(List<Propriete> proprietes) {
+        if(proprietes != null)
         this.proprietes = proprietes;
     }
 
@@ -87,6 +99,7 @@ public class InfoAnnonce {
     }
 
     public void setPhotos(List<Photo> photos) {
+        if(photos != null)
         this.photos = photos;
     }
 

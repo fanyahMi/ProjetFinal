@@ -3,6 +3,7 @@ package com.spring.models;
 import java.util.Date;
 
 public class Message {
+    private String idemetteur;
     private String emetteur;
     private String contenu;
     private Date date;
@@ -37,5 +38,11 @@ public class Message {
         this.date = date;
     }
 
-    
+    public String getIdemetteur() {
+        return idemetteur;
+    }
+
+    public void setIdemetteur(String idemetteur) {
+        this.idemetteur = idemetteur;
+    }
 }

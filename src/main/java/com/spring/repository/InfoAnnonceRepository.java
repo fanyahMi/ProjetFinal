@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.DeleteQuery;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.spring.models.FiltreAnnonce;
@@ -25,4 +26,7 @@ public interface InfoAnnonceRepository extends MongoRepository<InfoAnnonce, Stri
 
     @Query("{ 'favoris' : { $all : [ ?0] } }")
     List<InfoAnnonce> findUserFavoris(String userId);
+
+    @DeleteQuery(value = "{ 'annonce_id' : ?0 }")
+    void deleteByAnnonceId(String idAnnonce);
 }

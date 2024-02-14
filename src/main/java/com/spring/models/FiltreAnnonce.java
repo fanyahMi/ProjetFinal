@@ -7,36 +7,36 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class FiltreAnnonce {
     private String keyWord;
-    private String lieu; 
-    private Long  min_prix = 0L;
+    private String lieu;
+    private Long min_prix = 0L;
     private Long max_prix = Long.MAX_VALUE;
     private Date deb_date;
     private Date fin_date;
     private Long min_km = 0L;
-    private Long max_km  = Long.MAX_VALUE;
+    private Long max_km = Long.MAX_VALUE;
     private String marque;
-    private String categorie; 
-    private Long min_annee = 0L; 
-    private Long max_annee  = 3000L;
+    private String categorie;
+    private Long min_annee = 0L;
+    private Long max_annee = 3000L;
     private String carburant;
 
     public void initNumericNullFilter() {
-        if(this.min_prix == null) {
+        if (this.min_prix == null) {
             this.min_prix = 0L;
         }
-        if(this.max_prix == null) {
+        if (this.max_prix == null) {
             this.max_prix = Long.MAX_VALUE;
         }
-        if(this.min_km == null) {
+        if (this.min_km == null) {
             this.min_km = 0L;
         }
-        if(this.max_km == null) {
+        if (this.max_km == null) {
             this.max_km = Long.MAX_VALUE;
         }
-        if(this.min_annee == null) {
+        if (this.min_annee == null) {
             this.min_annee = 0L;
         }
-        if(this.max_annee == null) {
+        if (this.max_annee == null) {
             this.max_annee = Long.MAX_VALUE;
         }
     }
@@ -45,47 +45,49 @@ public class FiltreAnnonce {
         // Initialiser les filtres numerique null
         this.initNumericNullFilter();
 
+        // Avoir uniquement les annonces valide
+        query.addCriteria(Criteria.where("statut").is(2L));
+
         // Condition sur lieu
-        if(this.getLieu() != null) {
+        if (this.getLieu() != null) {
             query.addCriteria(Criteria.where("lieu").is(this.getLieu()));
         }
-    
+
         // Condition sur prix_vente
         query.addCriteria(Criteria.where("prix_vente").gte(this.getMin_prix()).lte(this.getMax_prix()));
-    
+
         // Condition sur detailvoiture.kilometrage
         query.addCriteria(Criteria.where("detailvoiture.kilometrage").gte(this.getMin_km()).lte(this.getMax_km()));
-    
+
         // Condition sur detailvoiture.marque
-        if(this.getMarque() != null) {
+        if (this.getMarque() != null) {
             query.addCriteria(Criteria.where("detailvoiture.marque").is(this.getMarque()));
         }
-    
+
         // Condition sur detailvoiture.categorie
-        if(this.getCategorie() != null) {
+        if (this.getCategorie() != null) {
             query.addCriteria(Criteria.where("detailvoiture.categorie").is(this.getCategorie()));
         }
 
         // Condition sur detailvoiture.carburant
-        if(this.getCarburant() != null) {
+        if (this.getCarburant() != null) {
             query.addCriteria(Criteria.where("detailvoiture.carburant").is(this.getCarburant()));
         }
-    
+
         // Condition sur detailvoiture.annee
         query.addCriteria(Criteria.where("detailvoiture.annee").gte(this.getMin_annee()).lte(this.getMax_annee()));
-    
-        // Condition sur description, detailvoiture.matricule et proprietes.description
-        if(this.getKeyWord() != null) {
+
+        // Condition sur description, detailvoiture.model, detailvoiture.matricule et
+        // proprietes.description
+        if (this.getKeyWord() != null) {
             query.addCriteria(new Criteria().orOperator(
-                Criteria.where("description").regex(this.getKeyWord(), "i"),
-                Criteria.where("detailvoiture.matricule").regex(this.getKeyWord(), "i"),
-                Criteria.where("proprietes.titre").regex(this.getKeyWord(), "i"),
-                Criteria.where("proprietes.description").regex(this.getKeyWord(), "i")
-            ));
+                    Criteria.where("description").regex(this.getKeyWord(), "i"),
+                    Criteria.where("detailvoiture.model").regex(this.getKeyWord(), "i"),
+                    Criteria.where("detailvoiture.matricule").regex(this.getKeyWord(), "i"),
+                    Criteria.where("proprietes.titre").regex(this.getKeyWord(), "i"),
+                    Criteria.where("proprietes.description").regex(this.getKeyWord(), "i")));
         }
     }
-    
-    
 
     public FiltreAnnonce() {
     }
